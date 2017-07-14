@@ -1,6 +1,5 @@
 package com.example.dtvta.testrestfulapi;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -8,9 +7,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+
+import com.example.dtvta.testrestfulapi.common.Config;
+import com.example.dtvta.testrestfulapi.common.DowloadJSON;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,10 +21,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private TextView txtContent;
-    private String url="http://192.168.1.100:8080/travel/type.php";
 
     private Toolbar toolBar;
     private DrawerLayout drawerLayout;
@@ -60,17 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         toggle.syncState();
 
-//        DownloadJSON downloadJSON=new DownloadJSON();
-//        try {
-//            String result=downloadJSON.execute(url).get();
-//                        Log.d("tag",result);
-//
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-
     }
 
     @Override
@@ -78,7 +68,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id=item.getItemId();
         switch (id){
             case R.id.mnu_home:
-
+                DowloadJSON dowloadJSON=new DowloadJSON();
+                dowloadJSON.execute(Config.URL_TYPE_TRAVEL);
+                try {
+                    String result=dowloadJSON.get();
+                    Log.d(getPackageName(),result);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.mnu_location:
 
@@ -96,32 +95,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public class DownloadJSON extends AsyncTask<String,Void,String>{
-        StringBuilder builder;
-        @Override
-        protected String doInBackground(String... strings) {
-
-            try {
-                String mUrl=strings[0];
-                URL url=new URL(mUrl);
-                HttpURLConnection connection= (HttpURLConnection) url.openConnection();
-                connection.connect();
-
-                InputStream inputStream=connection.getInputStream();
-                InputStreamReader reader=new InputStreamReader(inputStream);
-                BufferedReader buffer=new BufferedReader(reader);
-                builder=new StringBuilder();
-                String line="";
-                while((line=buffer.readLine())!=null){
-                    builder.append(line);
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return builder.toString();
-        }
-    }
 }
