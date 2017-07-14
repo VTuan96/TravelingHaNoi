@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="@dimen/size250dp"
+    >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/size250dp"
+        android:src="@drawable/back_ground_home"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/du_lich_ha_noi"
+        android:textSize="@dimen/size20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/size25dp" />
+</RelativeLayout>

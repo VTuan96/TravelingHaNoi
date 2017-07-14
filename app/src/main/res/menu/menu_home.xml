@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/mnu_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/mnu_location"
+            android:icon="@drawable/ic_location_searching_black_24dp"
+            android:title="@string/location" />
+        <item
+            android:id="@+id/mnu_search"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/search" />
+        <item
+            android:id="@+id/mnu_setting"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/mnu_about"
+            android:icon="@drawable/ic_apps_black_24dp"
+            android:title="@string/about" />
+    </group>
+</menu>
