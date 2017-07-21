@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#FFFFFFFF</color>
     <color name="colorGrey">#212121</color>
+    <color name="colorBackGroundItemTravel">#607D8B</color>
 </resources>

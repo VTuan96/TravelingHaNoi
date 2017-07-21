@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 
 public class Detail implements Serializable{
-    private int ID_DETAIL;
+    private int ID_DETAIL, ID_DESCRIPTION;
     private String IMAGE_DETAIL, TITLE;
 
     public int getID_DETAIL() {
@@ -16,6 +16,14 @@ public class Detail implements Serializable{
 
     public void setID_DETAIL(int ID_DETAIL) {
         this.ID_DETAIL = ID_DETAIL;
+    }
+
+    public int getID_DESCRIPTION() {
+        return ID_DESCRIPTION;
+    }
+
+    public void setID_DESCRIPTION(int ID_DESCRIPTION) {
+        this.ID_DESCRIPTION = ID_DESCRIPTION;
     }
 
     public String getIMAGE_DETAIL() {
@@ -34,15 +42,17 @@ public class Detail implements Serializable{
         this.TITLE = TITLE;
     }
 
-    public Detail(String IMAGE_DETAIL, String TITLE) {
+    public Detail(int ID_DESCRIPTION, String IMAGE_DETAIL, String TITLE) {
 
+        this.ID_DESCRIPTION = ID_DESCRIPTION;
         this.IMAGE_DETAIL = IMAGE_DETAIL;
         this.TITLE = TITLE;
     }
 
-    public Detail(int ID_DETAIL, String IMAGE_DETAIL, String TITLE) {
+    public Detail(int ID_DETAIL, int ID_DESCRIPTION, String IMAGE_DETAIL, String TITLE) {
 
         this.ID_DETAIL = ID_DETAIL;
+        this.ID_DESCRIPTION = ID_DESCRIPTION;
         this.IMAGE_DETAIL = IMAGE_DETAIL;
         this.TITLE = TITLE;
     }

@@ -7,4 +7,9 @@
     <dimen name="size25dp">25dp</dimen>
     <dimen name="size20sp">20sp</dimen>
     <dimen name="size15sp">15sp</dimen>
+    <dimen name="size200dp">200dp</dimen>
+    <dimen name="size10dp">10dp</dimen>
+    <dimen name="size5dp">5dp</dimen>
+    <dimen name="size150dp">150dp</dimen>
+    <dimen name="size80dp">80dp</dimen>
 </resources>

@@ -10,6 +10,9 @@ public class TypeTravel implements Serializable {
     private int ID_TYPE;
     private String NAME_TYPE;
 
+    public TypeTravel() {
+    }
+
     public int getID_TYPE() {
         return ID_TYPE;
     }

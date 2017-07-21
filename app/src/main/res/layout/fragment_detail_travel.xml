@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txtDetailNameTravel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ho guom lake"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/size10dp"
+        android:textSize="@dimen/size20sp"
+        android:textStyle="bold"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size150dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/relative_image"
+        android:layout_marginLeft="@dimen/size5dp"/>
+
+    <ListView
+        android:id="@+id/lvRelativeImage"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size80dp"
+        android:scrollbars="horizontal"
+        android:layout_marginLeft="@dimen/size5dp"></ListView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/introduce"
+        android:layout_marginLeft="@dimen/size5dp"/>
+
+    <TextView
+        android:id="@+id/txtIntroduce"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

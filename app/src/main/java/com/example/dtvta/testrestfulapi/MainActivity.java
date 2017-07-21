@@ -3,6 +3,8 @@ package com.example.dtvta.testrestfulapi;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,8 @@ import android.view.View;
 
 import com.example.dtvta.testrestfulapi.common.Config;
 import com.example.dtvta.testrestfulapi.common.DowloadJSON;
+import com.example.dtvta.testrestfulapi.fragment.HomeFragment;
+import com.example.dtvta.testrestfulapi.fragment.LocateFragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
-
+    private FragmentManager manager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,35 +65,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         toggle.syncState();
 
+        manager=this.getSupportFragmentManager();
+        FragmentTransaction transactionHome=manager.beginTransaction();
+        HomeFragment homeFragment=new HomeFragment();
+        transactionHome.replace(R.id.content,homeFragment);
+        transactionHome.commit();
+
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id=item.getItemId();
+        toolBar.setTitle(item.getTitle());
+        drawerLayout.closeDrawers();
         switch (id){
             case R.id.mnu_home:
-                DowloadJSON dowloadJSON=new DowloadJSON();
-                dowloadJSON.execute(Config.URL_TYPE_TRAVEL);
-                try {
-                    String result=dowloadJSON.get();
-                    Log.d(getPackageName(),result);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+                FragmentTransaction transactionHome=manager.beginTransaction();
+                HomeFragment homeFragment=new HomeFragment();
+                transactionHome.replace(R.id.content,homeFragment);
+                transactionHome.commit();
                 break;
             case R.id.mnu_location:
-
+                FragmentTransaction transactionLocation=manager.beginTransaction();
+                LocateFragment locationFragment=new LocateFragment();
+                transactionLocation.replace(R.id.content,locationFragment);
+                transactionLocation.commit();
                 break;
             case R.id.mnu_search:
-
+                FragmentTransaction transactionSearch=manager.beginTransaction();
+                HomeFragment searchFragment=new HomeFragment();
+                transactionSearch.replace(R.id.content,searchFragment);
+                transactionSearch.commit();
                 break;
             case R.id.mnu_setting:
-
+                FragmentTransaction transactionSetting=manager.beginTransaction();
+                HomeFragment settingFragment=new HomeFragment();
+                transactionSetting.replace(R.id.content,settingFragment);
+                transactionSetting.commit();
                 break;
             case R.id.mnu_about:
-
+                FragmentTransaction transactionAbout=manager.beginTransaction();
+                HomeFragment aboutFragment=new HomeFragment();
+                transactionAbout.replace(R.id.content,aboutFragment);
+                transactionAbout.commit();
                 break;
         }
         return true;

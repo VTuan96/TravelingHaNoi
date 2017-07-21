@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dtvta.testrestfulapi.R;
+import com.example.dtvta.testrestfulapi.model.Description;
 import com.example.dtvta.testrestfulapi.model.TypeTravel;
 
 import java.util.List;
