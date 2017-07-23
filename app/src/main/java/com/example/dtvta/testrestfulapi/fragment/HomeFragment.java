@@ -50,33 +50,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     private void setupAdapter() {
         listTypeTravel=new ArrayList<>();
         listTypeTravel= Webservice.getListTypeTravel();
-//        getDataFromWebService();
         adapterTypeTravel=new AdapterTypeTravel(getContext(),listTypeTravel);
         lvTypeTravel.setAdapter(adapterTypeTravel);
         adapterTypeTravel.notifyDataSetChanged();
-    }
-
-    private void getDataFromWebService() {
-        try {
-            String data=new DowloadJSON().execute(Config.URL_TYPE_TRAVEL).get();
-            JSONObject root=JsonUtil.createJSONObject(data);
-            JSONArray type=JsonUtil.getJSONArray(root,"TYPE");
-            for (int i=0;i<type.length();i++){
-                JSONObject itemType=JsonUtil.getJSONObject(type,i);
-                TypeTravel typeTravel=new TypeTravel();
-                typeTravel.setID_TYPE(itemType.getInt("ID_TYPE"));
-                typeTravel.setNAME_TYPE(itemType.getString("NAME_TYPE"));
-                listTypeTravel.add(typeTravel);
-            }
-            Log.d("tag",type.toString());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
     }
 
     @Override

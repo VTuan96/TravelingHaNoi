@@ -75,4 +75,9 @@ public class Travel implements Serializable {
     public void setNAME_TRAVEL(String NAME_TRAVEL) {
         this.NAME_TRAVEL = NAME_TRAVEL;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

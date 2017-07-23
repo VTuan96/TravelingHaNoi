@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import java.util.List;
  * Created by vutuan on 17/07/2017.
  */
 
-public class ListTravelFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ListTravelFragment extends Fragment{
     private ListView lvTravel;
     private List<Travel> listTravel;
     private AdapterListTravel adapterListTravel;
@@ -37,8 +38,6 @@ public class ListTravelFragment extends Fragment implements AdapterView.OnItemCl
 
         getArgument();
         setupAdapter();
-
-        lvTravel.setOnItemClickListener(this);
 
         return view;
     }
@@ -57,15 +56,4 @@ public class ListTravelFragment extends Fragment implements AdapterView.OnItemCl
         adapterListTravel.notifyDataSetChanged();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        FragmentManager manager=getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction=manager.beginTransaction();
-        MapTravelFragment mapTravelFragment=new MapTravelFragment();
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(Config.TRAVEL,listTravel.get(position));
-        mapTravelFragment.setArguments(bundle);
-        transaction.replace(R.id.content,mapTravelFragment).addToBackStack(Config.LIST_TRAVEL_FRAGMENT);
-        transaction.commit();
-    }
 }

@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+//        toolBar.setTitle("Home");
+        getSupportActionBar().setTitle("Home");
+
         toggle= new ActionBarDrawerToggle(this,drawerLayout,toolBar,R.string.open,R.string.close){
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -65,12 +68,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         toggle.syncState();
 
+
         manager=this.getSupportFragmentManager();
         FragmentTransaction transactionHome=manager.beginTransaction();
         HomeFragment homeFragment=new HomeFragment();
         transactionHome.replace(R.id.content,homeFragment);
         transactionHome.commit();
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override

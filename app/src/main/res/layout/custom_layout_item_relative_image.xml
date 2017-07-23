@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="@dimen/size200dp">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="@dimen/size5dp">
     <LinearLayout
         android:id="@+id/layout_type_travel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorBackGroundItemTravel">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/txtNameType"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/size80dp"
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
             android:text="Van mieu quoc tu giam"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textStyle="bold"
-            android:textSize="@dimen/size15sp"
+            android:textSize="@dimen/size5sp"
             android:gravity="center"
-            android:padding="@dimen/size5dp"/>
+            android:padding="@dimen/size5dp"
+            android:background="@color/colorBackGroundItemTravel"/>
     </LinearLayout>
     <ImageView
         android:id="@+id/imgTypeTravel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/size80dp"
+        android:layout_height="@dimen/size80dp"
         android:scaleType="centerCrop"
         android:layout_below="@+id/layout_type_travel"/>
 

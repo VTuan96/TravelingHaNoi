@@ -3,6 +3,7 @@ package com.example.dtvta.testrestfulapi.common;
 import android.util.Log;
 
 import com.example.dtvta.testrestfulapi.model.Description;
+import com.example.dtvta.testrestfulapi.model.Detail;
 import com.example.dtvta.testrestfulapi.model.Travel;
 import com.example.dtvta.testrestfulapi.model.TypeTravel;
 
@@ -76,7 +77,7 @@ public class Webservice {
     public static List<Travel> getListTravel(int id_type){
         List<Travel> listTravel=new ArrayList<>();
         try {
-            String data=new DowloadJSON().execute(Config.URL_TRAVEL+"getTravel&idtype="+id_type).get();
+            String data=new DowloadJSON().execute(Config.URL_TRAVEL+"getTypeTravel&idtype="+id_type).get();
             JSONObject root=JsonUtil.createJSONObject(data);
             JSONArray travelArray=JsonUtil.getJSONArray(root,"TRAVEL");
             int length=travelArray.length();
@@ -97,7 +98,6 @@ public class Webservice {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return listTravel;
     }
 
@@ -121,7 +121,63 @@ public class Webservice {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return description;
+    }
+
+    public static Travel getLastestTravel(int id_type){
+        List<Travel> listTravel=new ArrayList<>();
+        try {
+            String data=new DowloadJSON().execute(Config.URL_TRAVEL+"getTypeTravel&idtype="+id_type).get();
+            JSONObject root=JsonUtil.createJSONObject(data);
+            JSONArray travelArray=JsonUtil.getJSONArray(root,"TRAVEL");
+            int length=travelArray.length();
+            for (int i=0;i<length;i++){
+                JSONObject itemTravel=JsonUtil.getJSONObject(travelArray,i);
+                int id_travel=itemTravel.getInt("ID_TYPE");
+                int id_desription=itemTravel.getInt("ID_DESCRIPTION");
+                String name_travel=itemTravel.getString("NAME_TRAVEL");
+                float latitude= (float) itemTravel.getDouble("LATITUDE");
+                float longtitude= (float) itemTravel.getDouble("LONGTITUDE");
+                Travel travel=new Travel(id_travel,id_type,id_desription,latitude,longtitude,name_travel);
+                listTravel.add(travel);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        int length=listTravel.size();
+        if (length!=0)
+            return listTravel.get(length-1);
+        else return null;
+    }
+
+    public static List<Detail> getListDetail(int id_description){
+        List<Detail> listDetail=new ArrayList<>();
+        try {
+            String data=new DowloadJSON().execute(Config.URL_DETAIL+id_description).get();
+            JSONObject root=JsonUtil.createJSONObject(data);
+            JSONArray travelArray=JsonUtil.getJSONArray(root,"DETAIL");
+            int length=travelArray.length();
+            for (int i=0;i<length;i++){
+                JSONObject itemDetail=JsonUtil.getJSONObject(travelArray,i);
+                int id_detail=itemDetail.getInt("ID_DETAIL");
+                String title=itemDetail.getString("TITLE");
+                String image_detail=itemDetail.getString("IMAGE_DETAIL");
+                Detail detail=new Detail(id_detail,id_description,image_detail,title);
+                listDetail.add(detail);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return listDetail;
     }
 }

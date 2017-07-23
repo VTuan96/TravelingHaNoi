@@ -6,4 +6,5 @@
     <color name="colorWhite">#FFFFFFFF</color>
     <color name="colorGrey">#212121</color>
     <color name="colorBackGroundItemTravel">#607D8B</color>
+    <color name="colorTransperentGrey">#80B0BEC5</color>
 </resources>

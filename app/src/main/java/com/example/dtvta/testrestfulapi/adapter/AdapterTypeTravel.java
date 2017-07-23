@@ -1,6 +1,8 @@
 package com.example.dtvta.testrestfulapi.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dtvta.testrestfulapi.R;
+import com.example.dtvta.testrestfulapi.common.DownloadImage;
+import com.example.dtvta.testrestfulapi.common.Webservice;
 import com.example.dtvta.testrestfulapi.model.Description;
+import com.example.dtvta.testrestfulapi.model.Travel;
 import com.example.dtvta.testrestfulapi.model.TypeTravel;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by vutuan on 14/07/2017.
@@ -47,7 +53,26 @@ public class AdapterTypeTravel extends BaseAdapter {
             convertView= LayoutInflater.from(context).inflate(R.layout.custom_layout_item_home,parent,false);
         }
         ViewHolderTypeTravel holder=new ViewHolderTypeTravel(convertView);
-        holder.txtNameType.setText(listTypeTravel.get(position).getNAME_TYPE());
+        TypeTravel typeTravel=listTypeTravel.get(position);
+        Log.d("id_type",typeTravel.getID_TYPE()+"");
+        holder.txtNameType.setText(typeTravel.getNAME_TYPE());
+
+        Travel lastestTravel= Webservice.getLastestTravel(typeTravel.getID_TYPE());
+        if (lastestTravel!=null){
+            Description latestDescription=Webservice.getDescription(lastestTravel.getID_DESCRIPTION());
+            String imageDescription=latestDescription.getIMAGE_DESCRIPTION();
+            Log.d("image description",imageDescription);
+            try {
+                if (imageDescription!=null || !imageDescription.equals("")){
+                    Bitmap bitmap=new DownloadImage().execute(imageDescription).get();
+                    holder.imgTypeTravel.setImageBitmap(bitmap);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
 
         return convertView;
     }

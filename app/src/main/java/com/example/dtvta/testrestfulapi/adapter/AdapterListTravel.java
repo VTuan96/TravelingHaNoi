@@ -4,6 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dtvta.testrestfulapi.R;
+import com.example.dtvta.testrestfulapi.common.Config;
 import com.example.dtvta.testrestfulapi.common.DownloadImage;
 import com.example.dtvta.testrestfulapi.common.Webservice;
+import com.example.dtvta.testrestfulapi.fragment.DetailTravelFragment;
+import com.example.dtvta.testrestfulapi.fragment.MapTravelFragment;
 import com.example.dtvta.testrestfulapi.model.Description;
 import com.example.dtvta.testrestfulapi.model.Travel;
 
@@ -33,7 +40,7 @@ import java.util.concurrent.ExecutionException;
  * Created by vutuan on 17/07/2017.
  */
 
-public class AdapterListTravel extends BaseAdapter {
+public class AdapterListTravel extends BaseAdapter implements View.OnClickListener {
     private Context context;
     private List<Travel> listTravel;
 
@@ -74,30 +81,48 @@ public class AdapterListTravel extends BaseAdapter {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
+        holder.imgDetail.setOnClickListener(this);
+        holder.imgLocate.setOnClickListener(this);
+        holder.imgLocate.setTag(position);
+        holder.imgDetail.setTag(position);
+
+
         return convertView;
     }
 
-//    public class DownloadImage extends AsyncTask<String,Void,Bitmap>{
-//
-//        @Override
-//        protected Bitmap doInBackground(String... params) {
-//            Bitmap bitmap=null;
-//            try {
-//                URL url=new URL(params[0]);
-//                HttpURLConnection connection= (HttpURLConnection) url.openConnection();
-//                connection.setDoInput(true);
-//                connection.connect();
-//                InputStream inputStream=connection.getInputStream();
-//                bitmap= BitmapFactory.decodeStream(inputStream);
-//
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            return bitmap;
-//        }
-//    }
+    @Override
+    public void onClick(View v) {
+        int id=v.getId();
+        int position= (int) v.getTag();
+        Log.d("pos",position+"");
+
+        FragmentManager manager=((AppCompatActivity) context).getSupportFragmentManager();
+        FragmentTransaction transaction=manager.beginTransaction();
+        Bundle bundle=new Bundle();
+        bundle.putSerializable(Config.TRAVEL,listTravel.get(position));
+
+        switch (id){
+            case R.id.imgLocate:
+
+                MapTravelFragment mapTravelFragment=new MapTravelFragment();
+                mapTravelFragment.setArguments(bundle);
+                transaction.replace(R.id.content,mapTravelFragment).addToBackStack(Config.LIST_TRAVEL_FRAGMENT);
+                transaction.commit();
+
+                break;
+
+            case R.id.imgDetail:
+
+                DetailTravelFragment detailTravelFragment=new DetailTravelFragment();
+                detailTravelFragment.setArguments(bundle);
+                transaction.replace(R.id.content,detailTravelFragment).addToBackStack(Config.LIST_TRAVEL_FRAGMENT);
+                transaction.commit();
+
+                break;
+        }
+
+    }
 
     public class ViewHolderListTravel{
         private TextView txtNameTravel;
