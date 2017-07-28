@@ -27,10 +27,12 @@ import java.util.concurrent.ExecutionException;
 public class AdapterTypeTravel extends BaseAdapter {
     private Context context;
     private List<TypeTravel> listTypeTravel;
+    private Webservice webservice;
 
     public AdapterTypeTravel(Context context, List<TypeTravel> listTypeTravel){
         this.context=context;
         this.listTypeTravel=listTypeTravel;
+        webservice=new Webservice(context);
     }
     @Override
     public int getCount() {
@@ -57,14 +59,14 @@ public class AdapterTypeTravel extends BaseAdapter {
         Log.d("id_type",typeTravel.getID_TYPE()+"");
         holder.txtNameType.setText(typeTravel.getNAME_TYPE());
 
-        Travel lastestTravel= Webservice.getLastestTravel(typeTravel.getID_TYPE());
+        Travel lastestTravel= webservice.getLastestTravel(typeTravel.getID_TYPE());
         if (lastestTravel!=null){
-            Description latestDescription=Webservice.getDescription(lastestTravel.getID_DESCRIPTION());
+            Description latestDescription=webservice.getDescription(lastestTravel.getID_DESCRIPTION());
             String imageDescription=latestDescription.getIMAGE_DESCRIPTION();
             Log.d("image description",imageDescription);
             try {
                 if (imageDescription!=null || !imageDescription.equals("")){
-                    Bitmap bitmap=new DownloadImage().execute(imageDescription).get();
+                    Bitmap bitmap=new DownloadImage(context).execute(imageDescription).get();
                     holder.imgTypeTravel.setImageBitmap(bitmap);
                 }
             } catch (InterruptedException e) {

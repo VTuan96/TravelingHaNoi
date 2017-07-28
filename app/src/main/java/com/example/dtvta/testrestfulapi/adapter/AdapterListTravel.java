@@ -43,10 +43,12 @@ import java.util.concurrent.ExecutionException;
 public class AdapterListTravel extends BaseAdapter implements View.OnClickListener {
     private Context context;
     private List<Travel> listTravel;
+    private Webservice webservice;
 
     public AdapterListTravel(Context context, List<Travel> listTravel) {
         this.context = context;
         this.listTravel = listTravel;
+        webservice=new Webservice(context);
     }
 
     @Override
@@ -72,9 +74,9 @@ public class AdapterListTravel extends BaseAdapter implements View.OnClickListen
         ViewHolderListTravel holder=new ViewHolderListTravel(convertView);
         holder.txtNameTravel.setText(listTravel.get(position).getNAME_TRAVEL());
         int id_description=listTravel.get(position).getID_DESCRIPTION();
-        Description description= Webservice.getDescription(id_description);
+        Description description= webservice.getDescription(id_description);
         try {
-            Bitmap bitmap=new DownloadImage().execute(description.getIMAGE_DESCRIPTION()).get();
+            Bitmap bitmap=new DownloadImage(context).execute(description.getIMAGE_DESCRIPTION()).get();
             holder.imgTravel.setImageBitmap(bitmap);
         } catch (InterruptedException e) {
             e.printStackTrace();

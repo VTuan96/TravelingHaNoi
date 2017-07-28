@@ -1,14 +1,17 @@
 package com.example.dtvta.testrestfulapi.fragment;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +39,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 
 /**
  * Created by vutuan on 14/07/2017.
@@ -52,6 +56,12 @@ public class LocateFragment extends Fragment implements OnMapReadyCallback, Goog
     private GoogleMap mGoogleMap;
     private MapView mapView;
 
+    public long DELAY_TASK=5000;
+    private Handler handler;
+    private Runnable task;
+    private AlertDialog alearDiaglog;
+    private Webservice webservice;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,15 +69,16 @@ public class LocateFragment extends Fragment implements OnMapReadyCallback, Goog
         View view = inflater.inflate(R.layout.fragment_locate, container, false);
         setHasOptionsMenu(true);
         gpsTracker = new GPSTracker(getContext());
-
+        webservice=new Webservice(getContext());
         setupTravel();
+        handler=new Handler();
 
         return view;
     }
 
     private void setupTravel() {
         listTravel=new ArrayList<>();
-        listTravel = Webservice.getListTravel();
+        listTravel = webservice.getListTravel();
         Log.d("size", listTravel.size() + "");
 
     }
@@ -95,9 +106,21 @@ public class LocateFragment extends Fragment implements OnMapReadyCallback, Goog
         switch (id) {
             case R.id.mnu_locate:
                 //get all target that distance's value < 5 Km
-                getAllTarget();
-                showAllTarget();
-                mGoogleMap.setOnMarkerClickListener(this);
+
+                task=new Runnable() {
+                    @Override
+                    public void run() {
+                        getAllTarget();
+                        showAllTarget();
+                        if (listTargetTravel.size()!=0)
+                            showAlertDialog(listTargetTravel.size());
+                        mGoogleMap.setOnMarkerClickListener(LocateFragment.this);
+                        handler.postDelayed(task,DELAY_TASK);
+
+                    }
+                };
+                task.run();
+
                 break;
         }
         return true;
@@ -113,7 +136,7 @@ public class LocateFragment extends Fragment implements OnMapReadyCallback, Goog
 
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(here));
             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(here,12));
-            Toast.makeText(getContext(),getResources().getString(R.string.number_target)+": "+length,Toast.LENGTH_LONG).show();
+
             for (int i = 0; i < length; i++) {
                 Travel targetTravel=listTargetTravel.get(i);
                 LatLng latLngYourLocation = new LatLng(targetTravel.getLATTITUDE(), targetTravel.getLONGTITUDE());
@@ -130,6 +153,24 @@ public class LocateFragment extends Fragment implements OnMapReadyCallback, Goog
 
     }
 
+    private void showAlertDialog(int length) {
+        alearDiaglog =new AlertDialog.Builder(getContext())
+                .setTitle("Nearest travel")
+                .setMessage(length+" travel nearest us!").create();
+
+        alearDiaglog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                dialog.dismiss();
+                handler.removeCallbacks(task);
+            }
+        });
+
+        alearDiaglog.show();
+
+    }
+
     private void getAllTarget() {
         setupTravel();
         listTargetTravel=new ArrayList<>();
@@ -138,7 +179,7 @@ public class LocateFragment extends Fragment implements OnMapReadyCallback, Goog
         for (int i = 0; i < length; i++) {
             Travel temp = listTravel.get(i);
             String destination = temp.getLATTITUDE() + "," + temp.getLONGTITUDE();
-            Distance distance = new DirectionApi().getDistance(orgin, destination);
+            Distance distance = new DirectionApi(getContext()).getDistance(orgin, destination);
             Log.d("distance", distance.toString());
             if (distance.isTarget()) {
                 listTargetTravel.add(temp);

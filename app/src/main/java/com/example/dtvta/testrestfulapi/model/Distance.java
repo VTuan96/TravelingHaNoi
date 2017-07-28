@@ -18,7 +18,7 @@ public class Distance implements Serializable {
         this.value = value;
         this.text = text;
 
-        if (value>=0&&value<=5000){
+        if (value>=0&&value<=10000){
             this.target=true; //target is nearest us
         } else {
             this.target=false;

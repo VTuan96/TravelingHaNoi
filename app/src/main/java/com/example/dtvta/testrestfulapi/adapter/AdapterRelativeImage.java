@@ -108,7 +108,7 @@ public class AdapterRelativeImage extends RecyclerView.Adapter<AdapterRelativeIm
         Detail detail=listDetail.get(position);
         holder.txtNameType.setText(detail.getTITLE());
         try {
-            Bitmap bitmap=new DownloadImage().execute(detail.getIMAGE_DETAIL()).get();
+            Bitmap bitmap=new DownloadImage(context).execute(detail.getIMAGE_DETAIL()).get();
             holder.imgTypeTravel.setImageBitmap(bitmap);
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -29,6 +29,7 @@ public class ListTravelFragment extends Fragment{
     private List<Travel> listTravel;
     private AdapterListTravel adapterListTravel;
     private int id_type=0;
+    private Webservice webservice;
 
     @Nullable
     @Override
@@ -36,6 +37,7 @@ public class ListTravelFragment extends Fragment{
         View view=inflater.inflate(R.layout.fragment_list_travel,container,false);
         lvTravel= (ListView) view.findViewById(R.id.lvTravel);
 
+        webservice=new Webservice(getContext());
         getArgument();
         setupAdapter();
 
@@ -50,7 +52,7 @@ public class ListTravelFragment extends Fragment{
     }
 
     private void setupAdapter(){
-        listTravel= Webservice.getListTravel(id_type);
+        listTravel= webservice.getListTravel(id_type);
         adapterListTravel=new AdapterListTravel(getContext(),listTravel);
         lvTravel.setAdapter(adapterListTravel);
         adapterListTravel.notifyDataSetChanged();

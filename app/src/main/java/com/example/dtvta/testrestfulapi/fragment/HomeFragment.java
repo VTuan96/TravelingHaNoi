@@ -32,6 +32,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     private List<TypeTravel> listTypeTravel;
     private AdapterTypeTravel adapterTypeTravel;
 
+    private Webservice webservice;
+
     public HomeFragment() {
     }
 
@@ -40,16 +42,19 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_home, container, false);
 
+        webservice=new Webservice(getContext());
         lvTypeTravel= (ListView) view.findViewById(R.id.lvTypeTravel);
         setupAdapter();
 
         lvTypeTravel.setOnItemClickListener(this);
+
+
         return view;
     }
 
     private void setupAdapter() {
         listTypeTravel=new ArrayList<>();
-        listTypeTravel= Webservice.getListTypeTravel();
+        listTypeTravel= webservice.getListTypeTravel();
         adapterTypeTravel=new AdapterTypeTravel(getContext(),listTypeTravel);
         lvTypeTravel.setAdapter(adapterTypeTravel);
         adapterTypeTravel.notifyDataSetChanged();

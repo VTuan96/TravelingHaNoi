@@ -45,6 +45,7 @@ public class DetailTravelFragment extends Fragment {
     private Travel travel;
     private Description description;
     private Bundle bundle;
+    private Webservice webservice;
 
     @Nullable
     @Override
@@ -56,12 +57,13 @@ public class DetailTravelFragment extends Fragment {
         rvRelativeImage= (RecyclerView) view.findViewById(R.id.rvRelativeImage);
         txtIntroduce= (TextView) view.findViewById(R.id.txtIntroduce);
 
+        webservice=new Webservice(getContext());
         getArgument();
         setupAdapter();
 
         txtDetailNameTravel.setText(travel.getNAME_TRAVEL());
         try {
-            Bitmap bitmap=new DownloadImage().execute(description.getIMAGE_DESCRIPTION()).get();
+            Bitmap bitmap=new DownloadImage(getContext()).execute(description.getIMAGE_DESCRIPTION()).get();
             imgDetailTravel.setImageBitmap(bitmap);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -78,7 +80,7 @@ public class DetailTravelFragment extends Fragment {
                 Detail detail=listDetail.get(position);
                 txtDetailNameTravel.setText(detail.getTITLE());
                 try {
-                    Bitmap bitmap=new DownloadImage().execute(detail.getIMAGE_DETAIL()).get();
+                    Bitmap bitmap=new DownloadImage(getContext()).execute(detail.getIMAGE_DETAIL()).get();
                     imgDetailTravel.setImageBitmap(bitmap);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -93,13 +95,12 @@ public class DetailTravelFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 
     private void setupAdapter(){
         listDetail=new ArrayList<>();
-        listDetail=Webservice.getListDetail(description.getID_DESCRIPTION());
+        listDetail=webservice.getListDetail(description.getID_DESCRIPTION());
         layoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         adapter=new AdapterRelativeImage(getContext(),listDetail);
         rvRelativeImage.setAdapter(adapter);
@@ -111,7 +112,7 @@ public class DetailTravelFragment extends Fragment {
         bundle=getArguments();
         if (bundle!=null){
             travel= (Travel) bundle.getSerializable(Config.TRAVEL);
-            description= Webservice.getDescription(travel.getID_DESCRIPTION());
+            description= webservice.getDescription(travel.getID_DESCRIPTION());
         }
     }
 }

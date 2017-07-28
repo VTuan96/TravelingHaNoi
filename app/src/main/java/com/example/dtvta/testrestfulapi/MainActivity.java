@@ -1,6 +1,9 @@
 package com.example.dtvta.testrestfulapi;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +20,7 @@ import com.example.dtvta.testrestfulapi.common.Config;
 import com.example.dtvta.testrestfulapi.common.DowloadJSON;
 import com.example.dtvta.testrestfulapi.fragment.HomeFragment;
 import com.example.dtvta.testrestfulapi.fragment.LocateFragment;
+import com.example.dtvta.testrestfulapi.fragment.SearchFragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private FragmentManager manager;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        toolBar.setTitle("Home");
         getSupportActionBar().setTitle("Home");
 
         toggle= new ActionBarDrawerToggle(this,drawerLayout,toolBar,R.string.open,R.string.close){
@@ -77,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -103,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.mnu_search:
                 FragmentTransaction transactionSearch=manager.beginTransaction();
-                HomeFragment searchFragment=new HomeFragment();
+                SearchFragment searchFragment=new SearchFragment();
                 transactionSearch.replace(R.id.content,searchFragment);
                 transactionSearch.commit();
                 break;

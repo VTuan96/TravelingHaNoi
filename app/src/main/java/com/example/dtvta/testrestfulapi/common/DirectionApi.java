@@ -1,8 +1,11 @@
 package com.example.dtvta.testrestfulapi.common;
 
+import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 
 import com.example.dtvta.testrestfulapi.model.Distance;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,13 +24,19 @@ public class DirectionApi {
     public static final String QUERY_KEY="&key=";
     public static final String API_KEY_DIRECTION="AIzaSyBQTnHfSUcb4NH7J3tBKl2lKZoANqomFL0";
 
-    public String getPolyLine(String origin,String destination){
+    public Context context;
+
+    public DirectionApi(Context context) {
+        this.context = context;
+    }
+
+    public String getPolyLine(String origin, String destination){
         StringBuilder builder=new StringBuilder();
         String url=new StringBuilder(JSON_REQUEST_URL).append(QUERY_ORIGIN).append(origin).append(QUERY_DESTINATION)
                 .append(destination).append(QUERY_KEY).append(API_KEY_DIRECTION).toString();
         Log.d("url",url);
         try {
-            String data=new DowloadJSON().execute(url).get();
+            String data=new DowloadJSON(context).execute(url).get();
             JSONObject root=JsonUtil.createJSONObject(data);
             Log.d("root",root.toString());
             JSONArray arrayRoutes=JsonUtil.getJSONArray(root,"routes");
@@ -54,7 +63,7 @@ public class DirectionApi {
                 .append(destination).append(QUERY_KEY).append(API_KEY_DIRECTION).toString();
         Log.d("url",url);
         try {
-            String data=new DowloadJSON().execute(url).get();
+            String data=new DowloadJSON(context).execute(url).get();
             JSONObject root=JsonUtil.createJSONObject(data);
             Log.d("root",root.toString());
             JSONArray arrayRoutes=JsonUtil.getJSONArray(root,"routes");
@@ -76,6 +85,36 @@ public class DirectionApi {
 
         return result;
 
+    }
+
+    public LatLng getEndLocation(Context context, String origin, String destination){
+        GPSTracker gpsTracker=new GPSTracker(context);
+        LatLng result=new LatLng(0,0);
+        String url=new StringBuilder(JSON_REQUEST_URL).append(QUERY_ORIGIN).append(origin).append(QUERY_DESTINATION)
+                .append(destination).append(QUERY_KEY).append(API_KEY_DIRECTION).toString();
+        Log.d("url",url);
+        try {
+            String data=new DowloadJSON(context).execute(url).get();
+            JSONObject root=JsonUtil.createJSONObject(data);
+            Log.d("root",root.toString());
+            JSONArray arrayRoutes=JsonUtil.getJSONArray(root,"routes");
+            JSONObject objectData=JsonUtil.getJSONObject(arrayRoutes,0);
+            JSONArray legs=JsonUtil.getJSONArray(objectData,"legs");
+            JSONObject itemLegs=JsonUtil.getJSONObject(legs,0);
+            JSONObject distance=JsonUtil.getJSONObject(itemLegs,"end_location");
+            double lat=distance.getDouble("lat");
+            double lng=distance.getDouble("lng");
+            result=new LatLng(lat,lng);
+            Log.d("polyline",result.toString());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
 }

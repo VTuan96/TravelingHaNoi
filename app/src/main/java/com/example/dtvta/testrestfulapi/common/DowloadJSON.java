@@ -1,5 +1,7 @@
 package com.example.dtvta.testrestfulapi.common;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -15,7 +17,26 @@ import java.net.URL;
  */
 
 public class DowloadJSON extends AsyncTask<String,Void,String> {
+    private ProgressDialog progressDialog;
+    private Context context;
+    private int total=0;
+
+    public DowloadJSON(Context context) {
+        this.context = context;
+    }
+
     private StringBuilder builder=new StringBuilder();
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        progressDialog=new ProgressDialog(context);
+        progressDialog.setTitle("Loading ... !");
+        progressDialog.setMessage("Please waiting...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
     @Override
     protected String doInBackground(String... params) {
         try {
@@ -37,5 +58,13 @@ public class DowloadJSON extends AsyncTask<String,Void,String> {
         }
 
         return builder.toString();
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        if (progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 }

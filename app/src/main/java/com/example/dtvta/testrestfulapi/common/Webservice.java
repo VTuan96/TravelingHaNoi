@@ -1,5 +1,6 @@
 package com.example.dtvta.testrestfulapi.common;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.dtvta.testrestfulapi.model.Description;
@@ -20,10 +21,16 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class Webservice {
-    public static List<TypeTravel> getListTypeTravel(){
+    public Context context;
+
+    public Webservice(Context context) {
+        this.context = context;
+    }
+
+    public List<TypeTravel> getListTypeTravel(){
         List<TypeTravel> listTypeTravel=new ArrayList<>();
         try {
-            String data=new DowloadJSON().execute(Config.URL_TYPE_TRAVEL).get();
+            String data=new DowloadJSON(context).execute(Config.URL_TYPE_TRAVEL).get();
             JSONObject root=JsonUtil.createJSONObject(data);
             JSONArray type=JsonUtil.getJSONArray(root,"TYPE");
             for (int i=0;i<type.length();i++){
@@ -45,10 +52,10 @@ public class Webservice {
         return listTypeTravel;
     }
 
-    public static List<Travel> getListTravel(){
+    public List<Travel> getListTravel(){
         List<Travel> listTravel=new ArrayList<>();
         try {
-            String data=new DowloadJSON().execute(Config.URL_TRAVEL+"getTravel").get();
+            String data=new DowloadJSON(context).execute(Config.URL_TRAVEL+"getTravel").get();
             JSONObject root=JsonUtil.createJSONObject(data);
             JSONArray travelArray=JsonUtil.getJSONArray(root,"TRAVEL");
             int length=travelArray.length();
@@ -74,10 +81,10 @@ public class Webservice {
         return listTravel;
     }
 
-    public static List<Travel> getListTravel(int id_type){
+    public List<Travel> getListTravel(int id_type){
         List<Travel> listTravel=new ArrayList<>();
         try {
-            String data=new DowloadJSON().execute(Config.URL_TRAVEL+"getTypeTravel&idtype="+id_type).get();
+            String data=new DowloadJSON(context).execute(Config.URL_TRAVEL+"getTypeTravel&idtype="+id_type).get();
             JSONObject root=JsonUtil.createJSONObject(data);
             JSONArray travelArray=JsonUtil.getJSONArray(root,"TRAVEL");
             int length=travelArray.length();
@@ -101,10 +108,10 @@ public class Webservice {
         return listTravel;
     }
 
-    public static Description getDescription(int id_description){
+    public Description getDescription(int id_description){
         Description description=new Description();
         try {
-            String data=new DowloadJSON().execute(Config.URL_DESCRIPTION+"?id="+id_description).get();
+            String data=new DowloadJSON(context).execute(Config.URL_DESCRIPTION+"?id="+id_description).get();
             JSONObject root=JsonUtil.createJSONObject(data);
             JSONArray arrayDescription=JsonUtil.getJSONArray(root,"DESCRIPTION");
             int length=arrayDescription.length();
@@ -124,10 +131,10 @@ public class Webservice {
         return description;
     }
 
-    public static Travel getLastestTravel(int id_type){
+    public Travel getLastestTravel(int id_type){
         List<Travel> listTravel=new ArrayList<>();
         try {
-            String data=new DowloadJSON().execute(Config.URL_TRAVEL+"getTypeTravel&idtype="+id_type).get();
+            String data=new DowloadJSON(context).execute(Config.URL_TRAVEL+"getTypeTravel&idtype="+id_type).get();
             JSONObject root=JsonUtil.createJSONObject(data);
             JSONArray travelArray=JsonUtil.getJSONArray(root,"TRAVEL");
             int length=travelArray.length();
@@ -155,10 +162,10 @@ public class Webservice {
         else return null;
     }
 
-    public static List<Detail> getListDetail(int id_description){
+    public List<Detail> getListDetail(int id_description){
         List<Detail> listDetail=new ArrayList<>();
         try {
-            String data=new DowloadJSON().execute(Config.URL_DETAIL+id_description).get();
+            String data=new DowloadJSON(context).execute(Config.URL_DETAIL+id_description).get();
             JSONObject root=JsonUtil.createJSONObject(data);
             JSONArray travelArray=JsonUtil.getJSONArray(root,"DETAIL");
             int length=travelArray.length();

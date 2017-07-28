@@ -18,6 +18,7 @@ import com.example.dtvta.testrestfulapi.R;
 import com.example.dtvta.testrestfulapi.common.Config;
 import com.example.dtvta.testrestfulapi.common.DirectionApi;
 import com.example.dtvta.testrestfulapi.common.GPSTracker;
+import com.example.dtvta.testrestfulapi.model.Distance;
 import com.example.dtvta.testrestfulapi.model.Travel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,16 +43,13 @@ public class MapTravelFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
 
     private String origin = "", destination = "";
-    private LocationManager locationManager;
     private Location myLocation;
     private GPSTracker gpsTracker;
 
     private LatLng destinationLocation;
     private Marker markerDestination;
     private Marker markerOrigin;
-//    private Polyline polyline;
-//    private String polyLine="_yc_Cch`eS`@eGNcDJqAA_@eBKuCWmBKuCS{Fe@sDU_CSkIo@yEYiESeH[uBCwCO_DIkBGmWy@kBBwHZkI^}AAuBOoRmCuOqBgBQ{Ew@_Da@wFa@kHq@kHO]Jq@f@mB~@iAXMHILg@nGI@KDIHCN@JLNJBL?JGDC|AhAd@JL@`CYnHu@J@";
-
+    private Travel travel;
 
     @Nullable
     @Override
@@ -80,7 +78,7 @@ public class MapTravelFragment extends Fragment implements OnMapReadyCallback {
 
         Bundle bundle=getArguments();
         if (bundle!=null){
-            Travel travel= (Travel) bundle.getSerializable(Config.TRAVEL);
+            travel= (Travel) bundle.getSerializable(Config.TRAVEL);
             destinationLocation=new LatLng(travel.getLATTITUDE(),travel.getLONGTITUDE());
             Log.d("lat create",travel.getLATTITUDE()+"");
         }
@@ -112,20 +110,26 @@ public class MapTravelFragment extends Fragment implements OnMapReadyCallback {
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(here));
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(here,13));
 
+
+        origin = myLocation.getLatitude()+ "," + myLocation.getLongitude();
+        destination = destinationLocation.latitude + "," + destinationLocation.longitude;
+        Distance distance=new DirectionApi(getContext()).getDistance(origin,destination);
+
+        Log.d("marker",distance.getText());
+
         markerDestination=mGoogleMap.addMarker(new MarkerOptions()
                 .position(destinationLocation)
-                .title("My destination")
+                .title(travel.getNAME_TRAVEL())
+                .snippet(distance.getText())
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).draggable(true));
 
-        origin+=markerOrigin.getPosition().latitude+","+markerOrigin.getPosition().longitude;
-        destination+=markerDestination.getPosition().latitude+","+markerDestination.getPosition().longitude;
-        String polyLine=new DirectionApi().getPolyLine(origin,destination);
+        String polyLine=new DirectionApi(getContext()).getPolyLine(origin,destination);
 
         List<LatLng> listLine= PolyUtil.decode(polyLine);
         mGoogleMap.addPolyline(new PolylineOptions().addAll(listLine).color(Color.GREEN));
         Log.d("lat",myLocation.getLatitude()+"");
-    }
 
+    }
 
 
 }

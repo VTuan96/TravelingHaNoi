@@ -1,5 +1,7 @@
 package com.example.dtvta.testrestfulapi.common;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -15,6 +17,12 @@ import java.net.URL;
  */
 
 public class DownloadImage extends AsyncTask<String,Void,Bitmap> {
+    public Context context;
+
+    public DownloadImage(Context context) {
+        this.context = context;
+    }
+
 
     @Override
     protected Bitmap doInBackground(String... params) {
@@ -33,5 +41,11 @@ public class DownloadImage extends AsyncTask<String,Void,Bitmap> {
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap bitmap) {
+        super.onPostExecute(bitmap);
+
     }
 }
