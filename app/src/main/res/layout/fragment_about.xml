@@ -1,13 +1,52 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.dtvta.testrestfulapi.fragment.HomeFragment">
+    android:orientation="vertical"
+    android:layout_marginLeft="@dimen/size5dp"
+    android:layout_marginRight="@dimen/size5dp">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:text="Du lịch Hà Nội"
+        android:textSize="@dimen/size30sp"
+        android:textColor="@color/colorTransperentGrey"
+        android:gravity="center_horizontal"/>
 
-</FrameLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/back_ground_home"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size15dp"
+        android:text="Ứng dụng Du lịch Hà Nội giúp hướng dẫn du lịch ở trong khu vực Hà Nội"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chức năng ứng dụng:
+    \r\n- Giới thiệu thông tin địa điểm theo từng hạng mục
+    \r\n- Định vị, dẫn đường tới địa điểm du lịch
+    \r\n- Tự động hướng dẫn du lịch, tự động tiếp cận đối tượng"
+
+        android:layout_marginTop="@dimen/size5dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrey"
+        android:layout_marginTop="@dimen/size5dp"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Liên hệ người phát triển:
+    \r\n- Người phát triển: Vũ Tuấn
+    \r\n- Email: vutuan.bkset@gmail.com"
+        android:layout_marginTop="@dimen/size5dp"/>
+
+</LinearLayout>

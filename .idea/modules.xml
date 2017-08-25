@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TestRestfulApi.iml" filepath="$PROJECT_DIR$/TestRestfulApi.iml" />
       <module fileurl="file://$PROJECT_DIR$/TravelingHaNoi.iml" filepath="$PROJECT_DIR$/TravelingHaNoi.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

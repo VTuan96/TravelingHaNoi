@@ -18,9 +18,11 @@ import android.view.View;
 
 import com.example.dtvta.testrestfulapi.common.Config;
 import com.example.dtvta.testrestfulapi.common.DowloadJSON;
+import com.example.dtvta.testrestfulapi.fragment.AboutFragment;
 import com.example.dtvta.testrestfulapi.fragment.HomeFragment;
 import com.example.dtvta.testrestfulapi.fragment.LocateFragment;
 import com.example.dtvta.testrestfulapi.fragment.SearchFragment;
+import com.example.dtvta.testrestfulapi.fragment.SettingFragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -114,13 +116,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.mnu_setting:
                 FragmentTransaction transactionSetting=manager.beginTransaction();
-                HomeFragment settingFragment=new HomeFragment();
+                SettingFragment settingFragment=new SettingFragment();
                 transactionSetting.replace(R.id.content,settingFragment);
                 transactionSetting.commit();
                 break;
             case R.id.mnu_about:
                 FragmentTransaction transactionAbout=manager.beginTransaction();
-                HomeFragment aboutFragment=new HomeFragment();
+                AboutFragment aboutFragment=new AboutFragment();
                 transactionAbout.replace(R.id.content,aboutFragment);
                 transactionAbout.commit();
                 break;
